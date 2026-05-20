@@ -16,10 +16,10 @@
   },
   "summary": "Codex skill that keeps project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers.",
   "primary_files": [
-    "SKILL.md",
-    "references/frame.md",
-    "scripts/inject_frame.py",
-    "agents/openai.yaml"
+    "canon-boundary-guard/SKILL.md",
+    "canon-boundary-guard/references/frame.md",
+    "canon-boundary-guard/scripts/inject_frame.py",
+    "canon-boundary-guard/agents/openai.yaml"
   ],
   "layers": [
     {

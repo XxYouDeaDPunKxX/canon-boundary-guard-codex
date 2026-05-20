@@ -14,10 +14,10 @@ or consequential Codex sessions.
 
 Core files in the repository:
 
-- SKILL.md: full skill instructions and operating frame
-- references/frame.md: compact frame used by the optional hook
-- scripts/inject_frame.py: hook payload generator
-- agents/openai.yaml: Codex-facing skill metadata
+- canon-boundary-guard/SKILL.md: full skill instructions and operating frame
+- canon-boundary-guard/references/frame.md: compact frame used by the hook
+- canon-boundary-guard/scripts/inject_frame.py: hook payload generator
+- canon-boundary-guard/agents/openai.yaml: Codex-facing skill metadata
 
 Layer summary:
 
