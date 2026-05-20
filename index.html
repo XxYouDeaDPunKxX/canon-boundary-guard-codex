@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Canon Boundary Guard</title>
+  <meta name="description" content="Codex skill for keeping project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/">
+  <link rel="alternate" type="text/plain" href="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/llms.txt" title="LLM-readable index">
+  <link rel="alternate" type="application/json" href="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/raw-manifest.json" title="Machine-readable manifest">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Canon Boundary Guard">
+  <meta property="og:description" content="A Codex skill for separating project evidence, chat context, operator instructions, working hypotheses, and model assumptions during a session.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/">
+  <meta property="og:image" content="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/og-image.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "Canon Boundary Guard",
+    "alternateName": "canon-boundary-guard",
+    "description": "Codex skill for keeping project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers.",
+    "url": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/",
+    "mainEntityOfPage": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/",
+    "codeRepository": "https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex",
+    "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "programmingLanguage": ["Markdown", "Python", "YAML"],
+    "runtimePlatform": "Codex",
+    "applicationCategory": "DeveloperTool",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "XxYouDeaDPunKxX"
+    },
+    "about": [
+      "Codex skill",
+      "provenance boundaries",
+      "agent instructions",
+      "context separation",
+      "repository safety"
+    ],
+    "keywords": [
+      "codex",
+      "codex-skill",
+      "provenance",
+      "agent-instructions",
+      "context-boundaries",
+      "cognitive-frame"
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #151714;
+      --panel: #1d211d;
+      --panel-2: #242a24;
+      --panel-3: #2b322b;
+      --text: #f4f0e7;
+      --muted: #bcb6a8;
+      --soft: #8f958b;
+      --line: #3a4239;
+      --jade: #86dcc8;
+      --jade-2: #55b9a5;
+      --amber: #d6a052;
+      --red: #d07b68;
+      --code: #30372f;
+      --max: 1360px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 82% 4%, rgba(134, 220, 200, 0.12), transparent 34rem),
+        linear-gradient(180deg, #1b1e1a 0, var(--bg) 24rem);
+    }
+
+    a {
+      color: var(--jade);
+      text-underline-offset: 0.18em;
+    }
+
+    a:focus-visible {
+      outline: 3px solid rgba(134, 220, 200, 0.34);
+      outline-offset: 3px;
+    }
+
+    .wrap {
+      width: min(100% - 40px, var(--max));
+      margin-inline: auto;
+    }
+
+    .hero {
+      min-height: min(760px, 92vh);
+      display: grid;
+      grid-template-columns: minmax(0, 1.618fr) minmax(360px, 1fr);
+      gap: clamp(36px, 6vw, 88px);
+      align-items: center;
+      padding: 58px 0 52px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      margin: 0 0 18px;
+      color: var(--jade);
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 840px;
+      font-size: clamp(3.1rem, 8vw, 7.8rem);
+      line-height: 0.9;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 820px;
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.18rem, 2.1vw, 1.58rem);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--jade);
+      border-radius: 7px;
+      background: var(--jade);
+      color: #13221e;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--jade);
+    }
+
+    .frame-preview {
+      min-width: 0;
+      padding: clamp(18px, 2.4vw, 32px);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(36, 42, 36, 0.98), rgba(29, 33, 29, 0.96));
+      box-shadow: 0 26px 80px rgba(0, 0, 0, 0.32);
+    }
+
+    .frame-title {
+      margin: 0 0 20px;
+      font-size: clamp(1.25rem, 2vw, 1.8rem);
+      font-weight: 800;
+    }
+
+    .frame-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .frame-row {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      min-height: 52px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+    }
+
+    .frame-row.primary {
+      border-color: rgba(134, 220, 200, 0.72);
+      background: rgba(85, 185, 165, 0.16);
+    }
+
+    .frame-row.warning {
+      border-color: rgba(214, 160, 82, 0.55);
+      background: rgba(214, 160, 82, 0.11);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      border-radius: 6px;
+      background: var(--code);
+      color: var(--jade);
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .frame-row span:last-child {
+      color: var(--text);
+      font-size: 0.96rem;
+      font-weight: 650;
+    }
+
+    main {
+      padding-bottom: 64px;
+    }
+
+    .band {
+      padding: clamp(48px, 7vw, 88px) 0;
+    }
+
+    .band.tight {
+      padding: clamp(36px, 5vw, 64px) 0;
+    }
+
+    .problem {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(29, 33, 29, 0.58);
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: clamp(32px, 6vw, 76px);
+      align-items: start;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 4.1rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-kicker {
+      max-width: 620px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 1.4vw, 1.22rem);
+    }
+
+    .collision-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .collision {
+      min-width: 0;
+      min-height: 190px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--panel);
+    }
+
+    .collision strong {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--jade);
+      font-size: 1.04rem;
+    }
+
+    .collision p,
+    .section-kicker,
+    .body-copy {
+      color: var(--muted);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    p + p {
+      margin-top: 14px;
+    }
+
+    .core {
+      padding-top: clamp(58px, 8vw, 110px);
+    }
+
+    .core-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.618fr);
+      gap: clamp(28px, 5vw, 70px);
+      align-items: end;
+      margin-bottom: 30px;
+    }
+
+    .core-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1.618fr) minmax(300px, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .layer-board {
+      min-width: 0;
+      padding: clamp(18px, 2.2vw, 28px);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+    }
+
+    .layer-board .frame-row {
+      min-height: 64px;
+    }
+
+    .rules {
+      display: grid;
+      gap: 14px;
+    }
+
+    .rule {
+      min-width: 0;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--panel-2);
+    }
+
+    .rule strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .authority-band {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, rgba(214, 160, 82, 0.09), rgba(29, 33, 29, 0.24));
+    }
+
+    .authority-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+      gap: clamp(28px, 5vw, 68px);
+      align-items: center;
+    }
+
+    .authority-card {
+      min-width: 0;
+      padding: 22px;
+      border-left: 4px solid var(--amber);
+      border-radius: 8px;
+      background: rgba(36, 42, 36, 0.78);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
+      gap: clamp(22px, 4vw, 48px);
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--panel);
+    }
+
+    .panel h3 {
+      margin: 0 0 14px;
+      font-size: 1.25rem;
+    }
+
+    code,
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    }
+
+    code {
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      max-width: 100%;
+      overflow-x: auto;
+      margin: 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--code);
+      color: var(--text);
+      font-size: 0.92rem;
+    }
+
+    pre code {
+      overflow-wrap: normal;
+      white-space: pre;
+    }
+
+    footer {
+      padding: 22px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .machine-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .problem-grid,
+      .core-head,
+      .core-panel,
+      .authority-layout,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .collision-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 28px, var(--max));
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      .actions {
+        align-items: stretch;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .frame-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap hero">
+    <div>
+      <p class="eyebrow">Codex skill</p>
+      <h1>Canon Boundary Guard</h1>
+      <p class="lead">A cognitive frame for keeping project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate layers during a Codex session.</p>
+      <div class="actions" aria-label="Primary links">
+        <a class="button" href="https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex">View repository</a>
+        <a class="button secondary" href="#install">Install</a>
+      </div>
+    </div>
+
+    <aside class="frame-preview" aria-label="Canonical layer preview">
+      <p class="frame-title">Layer separation, kept active.</p>
+      <div class="frame-stack">
+        <div class="frame-row primary"><span class="tag">L0</span><span>Project evidence</span></div>
+        <div class="frame-row"><span class="tag">L1</span><span>Conversation shaping</span></div>
+        <div class="frame-row"><span class="tag">L1A</span><span>Authorized delta</span></div>
+        <div class="frame-row warning"><span class="tag">L2</span><span>Agent control</span></div>
+        <div class="frame-row warning"><span class="tag">L2A</span><span>Instruction chain</span></div>
+        <div class="frame-row"><span class="tag">L3</span><span>Model prior</span></div>
+      </div>
+    </aside>
+  </header>
+
+  <main>
+    <section class="band problem" aria-labelledby="problem-title">
+      <div class="wrap problem-grid">
+        <div>
+          <h2 id="problem-title">The problem is not memory. It is authority.</h2>
+          <p class="section-kicker">Codex can hold a long session together and still need a clear way to separate what each source is allowed to mean.</p>
+        </div>
+        <div class="collision-grid" aria-label="Common source collisions">
+          <article class="collision">
+            <strong>Chat is not project truth</strong>
+            <p>Conversation can shape the task, but it does not automatically become durable project content.</p>
+          </article>
+          <article class="collision">
+            <strong>Instructions are not content</strong>
+            <p>Agent-facing rules can govern behavior without belonging in the repository.</p>
+          </article>
+          <article class="collision">
+            <strong>Assumptions are not evidence</strong>
+            <p>Model priors and working hypotheses stay separate until verified or approved.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap core" aria-labelledby="core-title">
+      <div class="core-head">
+        <div>
+          <h2 id="core-title">The frame stays on while Codex thinks.</h2>
+          <p class="section-kicker">The hook is only a reinforcement point. The skill itself is the posture: classify sources while reading, reasoning, planning, detecting conflicts, and deciding what can persist.</p>
+        </div>
+        <p class="body-copy">Canon Boundary Guard does not decide project truth. It makes visible what class of source is being used and where that source is allowed to go.</p>
+      </div>
+
+      <div class="core-panel">
+        <div class="layer-board" aria-label="Canon Boundary Guard layers">
+          <div class="frame-stack">
+            <div class="frame-row primary"><span class="tag">L0</span><span>Persistent or verified evidence: files, git state, tests, schemas, diagnostics, verified tool output.</span></div>
+            <div class="frame-row"><span class="tag">L1</span><span>Conversation material present in context, not approved for persistence.</span></div>
+            <div class="frame-row"><span class="tag">L1A</span><span>Operator-approved material for this turn, before it is written.</span></div>
+            <div class="frame-row warning"><span class="tag">L2</span><span>Instructions that shape agent behavior. Not project content.</span></div>
+            <div class="frame-row warning"><span class="tag">L2A</span><span>Codex instruction-chain material, including runtime AGENTS guidance.</span></div>
+            <div class="frame-row"><span class="tag">L3</span><span>Unverified model memory, assumed conventions, and unstated framework behavior.</span></div>
+          </div>
+        </div>
+        <div class="rules" aria-label="Persistence rules">
+          <article class="rule">
+            <strong>Preserve L0.</strong>
+            <p class="body-copy">Project evidence can be reorganized or used directly when the evidence is clear.</p>
+          </article>
+          <article class="rule">
+            <strong>Do not silently persist shaping.</strong>
+            <p class="body-copy">L1 and L3 need verification or approval before becoming project content.</p>
+          </article>
+          <article class="rule">
+            <strong>Keep agent-control out of project content.</strong>
+            <p class="body-copy">L2 and L2A persist only when the operator explicitly asks for agent-facing instructions.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band authority-band" aria-labelledby="agents-title">
+      <div class="wrap authority-layout">
+        <div>
+          <h2 id="agents-title">AGENTS.md needs authority handling.</h2>
+          <p class="section-kicker">In some Codex environments, <code>AGENTS.md</code> instructions may appear as a visible user-role message before the operator's real first request.</p>
+        </div>
+        <div class="authority-card">
+          <p>Canon Boundary Guard treats a leading block starting with <code>AGENTS.md instructions for &lt;path&gt;</code> as runtime instruction-chain material, not ordinary chat and not repository content.</p>
+          <p>When this distinction matters, verify the authority layer before using the block as project evidence or writing it into persistent files.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap band tight" id="install" aria-labelledby="install-title">
+      <div class="split">
+        <article class="panel">
+          <h2 id="install-title">Install</h2>
+          <p class="body-copy">Clone the repository into your Codex skills directory, then restart Codex.</p>
+          <pre><code>git clone https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex.git ~/.codex/skills/canon-boundary-guard</code></pre>
+        </article>
+        <article class="panel">
+          <h2>Hook reinforcement</h2>
+          <p class="body-copy">The optional hook emits the compact frame as a <code>systemMessage</code> before matched write tools. It does not block tool calls, rewrite requested operations, or decide project policy.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap band tight" aria-labelledby="license-title">
+      <div class="split">
+        <article class="panel">
+          <h2 id="license-title">License</h2>
+          <p class="body-copy">This project is licensed under CC BY-SA 4.0: Creative Commons Attribution-ShareAlike 4.0 International.</p>
+        </article>
+        <article class="panel">
+          <h2>AI-assisted development</h2>
+          <p class="body-copy">This project was developed with AI assistance through human-directed drafting, structuring, review, and refinement.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>Canon Boundary Guard</span>
+      <div class="machine-links" aria-label="Machine-readable project files">
+        <span>Machine-readable:</span>
+        <a href="llms.txt">llms.txt</a>
+        <a href="raw-manifest.json">manifest</a>
+        <a href="sitemap.xml">sitemap</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

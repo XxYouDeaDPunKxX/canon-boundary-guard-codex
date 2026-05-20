@@ -1,0 +1,61 @@
+{
+  "name": "Canon Boundary Guard",
+  "skill_name": "canon-boundary-guard",
+  "repository": "https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex",
+  "canonical_page": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/",
+  "license": "CC BY-SA 4.0",
+  "type": "codex-skill",
+  "deployment": {
+    "platform": "GitHub Pages",
+    "pages_type": "PROJECT_SITE",
+    "source_branch": "gh-pages",
+    "source_path": "/",
+    "custom_domain": null,
+    "site_root": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/",
+    "discovery_root": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/"
+  },
+  "summary": "Codex skill that keeps project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers.",
+  "primary_files": [
+    "SKILL.md",
+    "references/frame.md",
+    "scripts/inject_frame.py",
+    "agents/openai.yaml"
+  ],
+  "layers": [
+    {
+      "id": "L0",
+      "name": "Evidence",
+      "description": "Persistent or verified evidence."
+    },
+    {
+      "id": "L1",
+      "name": "Shaping",
+      "description": "Conversation material not approved for persistence."
+    },
+    {
+      "id": "L1A",
+      "name": "Authorized Delta",
+      "description": "Operator-approved material for the current turn before persistence."
+    },
+    {
+      "id": "L2",
+      "name": "Agent Control",
+      "description": "Instructions that shape agent behavior, not project content."
+    },
+    {
+      "id": "L2A",
+      "name": "Codex Instruction Chain",
+      "description": "AGENTS guidance and runtime instruction-chain material."
+    },
+    {
+      "id": "L3",
+      "name": "Model Prior",
+      "description": "Unverified model memory, assumed conventions, or unstated framework behavior."
+    }
+  ],
+  "discovery": {
+    "llms_txt": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/llms.txt",
+    "raw_manifest": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/raw-manifest.json",
+    "sitemap": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/sitemap.xml"
+  }
+}
