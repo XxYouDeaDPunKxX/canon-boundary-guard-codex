@@ -60,13 +60,18 @@ block as project evidence or writing it into persistent files.
 
 ## 📦 Install
 
-Clone this repository into your Codex skills directory:
+Copy the `canon-boundary-guard/` folder into your Codex skills directory.
 
-```bash
-git clone https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex.git ~/.codex/skills/canon-boundary-guard
-```
+Typical locations:
+
+- Windows: `%USERPROFILE%\.codex\skills\canon-boundary-guard`
+- macOS/Linux: `~/.codex/skills/canon-boundary-guard`
 
 Restart Codex after installing the skill.
+
+The hook is highly recommended and requires a `PreToolUse` entry in your Codex
+`config.toml`.
+See the technical details below.
 
 ## ▶️ Use
 
@@ -79,7 +84,8 @@ Use $canon-boundary-guard before editing this protocol.
 ```
 
 The skill can also be wired into a Codex hook so its compact frame is surfaced
-before matched write tools. The hook setup is documented in `SKILL.md`.
+before matched write tools. The hook setup is documented in
+`canon-boundary-guard/SKILL.md`.
 
 ## 🤖 AI-Assisted Development
 
@@ -105,22 +111,25 @@ See [LICENSE](LICENSE).
 This section is for readers who want to inspect the actual operating model
 behind the skill. It uses the skill's internal terms directly.
 
-## Skill Structure
+## 🧱 Skill Structure
 
 ```txt
-SKILL.md
-agents/openai.yaml
-references/frame.md
-scripts/inject_frame.py
+canon-boundary-guard/
+|-- SKILL.md
+|-- agents/openai.yaml
+|-- references/frame.md
+`-- scripts/inject_frame.py
 ```
 
-- `SKILL.md` defines the full operating frame.
-- `references/frame.md` contains the compact frame emitted by the hook script.
-- `scripts/inject_frame.py` reads `references/frame.md` and emits a hook
-  payload.
-- `agents/openai.yaml` contains Codex-facing skill metadata.
+- `canon-boundary-guard/SKILL.md` defines the full operating frame.
+- `canon-boundary-guard/references/frame.md` contains the compact frame emitted
+  by the hook script.
+- `canon-boundary-guard/scripts/inject_frame.py` reads
+  `canon-boundary-guard/references/frame.md` and emits a hook payload.
+- `canon-boundary-guard/agents/openai.yaml` contains Codex-facing skill
+  metadata.
 
-## Operating Posture
+## 🧠 Operating Posture
 
 The skill is designed to keep source classes separate throughout the session,
 not only at write time.
@@ -129,7 +138,7 @@ The frame should affect reading, analysis, planning, conflict detection, and
 persistence decisions. The hook only re-surfaces the compact frame near matched
 write tools.
 
-## Provenance Layers
+## 🧬 Provenance Layers
 
 Canon Boundary Guard uses six source classes. They do not decide whether
 something is true by themselves. They describe where the material came from and
@@ -155,7 +164,7 @@ works, but they should not silently become repository content. L1A can be
 written only inside the scope approved by the operator. L2 and L2A require an
 explicit request for agent-facing instructions before they can be persisted.
 
-## AGENTS.md Prelude
+## 🧩 AGENTS.md Prelude
 
 A leading user-role block starting with:
 
@@ -171,23 +180,25 @@ block, that block is runtime metadata.
 
 The first operator request starts after this prelude.
 
-## Hook Injection
+## 🔁 Hook Injection
 
-`scripts/inject_frame.py` is intentionally small. It reads
-`references/frame.md`, strips surrounding whitespace, and emits JSON for a
-Codex `PreToolUse` hook:
+`canon-boundary-guard/scripts/inject_frame.py` is intentionally small. It reads
+`canon-boundary-guard/references/frame.md`, strips surrounding whitespace, and
+emits JSON for a Codex `PreToolUse` hook:
 
 ```json
 {
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse"
   },
-  "systemMessage": "<contents of references/frame.md>"
+  "systemMessage": "<contents of canon-boundary-guard/references/frame.md>"
 }
 ```
 
-The hook is intended for matched write tools, for example `apply_patch`,
-`Write`, or `Edit`.
+The hook is highly recommended for sessions where repository content, project
+rules, protocols, naming, workflows, or `AGENTS.md` authority may matter. It is
+intended for matched write tools, for example `apply_patch`, `Write`, or
+`Edit`.
 
 The hook is not the core mechanism of the skill. It is a reinforcement point
 that re-surfaces the compact frame before matched write tools.
@@ -197,9 +208,37 @@ rewrite the requested operation, or decide project policy. Its job is to put the
 classification frame back into the instruction stream at the moment a write may
 happen.
 
-## Fallback Behavior
+## 🛠️ Hook Setup
 
-If `references/frame.md` is missing, the hook script still emits a
+Add the hook to your Codex `config.toml`.
+
+Typical config locations:
+
+- Windows: `%USERPROFILE%\.codex\config.toml`
+- macOS/Linux: `~/.codex/config.toml`
+
+Use an absolute path in `command`.
+
+```toml
+[features]
+codex_hooks = true
+
+[[hooks.PreToolUse]]
+matcher = "apply_patch|Write|Edit"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "python C:\\ABSOLUTE\\PATH\\TO\\.codex\\skills\\canon-boundary-guard\\scripts\\inject_frame.py"
+timeout = 5
+statusMessage = "Provenance frame"
+```
+
+Update the `command` path to match where you copied the
+`canon-boundary-guard/` skill folder.
+
+## 🧯 Fallback Behavior
+
+If `canon-boundary-guard/references/frame.md` is missing, the hook script still emits a
 `systemMessage`:
 
 ```txt
