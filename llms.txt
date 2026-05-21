@@ -4,20 +4,23 @@ Canonical page: https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/
 Repository: https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex
 License: CC BY-SA 4.0
 
-Canon Boundary Guard is a Codex skill that gives Codex a cognitive frame for
+Canon Boundary Guard is a Codex plugin that gives Codex a cognitive frame for
 keeping project evidence, chat context, operator instructions, working
 hypotheses, and model assumptions in separate layers during a session.
 
-The skill is not only a pre-edit guard. It is intended to support reading,
-analysis, planning, conflict detection, and persistence decisions across long
-or consequential Codex sessions.
+The bundled skill is not only a pre-edit guard. It is intended to support
+reading, analysis, planning, conflict detection, and persistence decisions
+across long or consequential Codex sessions.
 
 Core files in the repository:
 
-- canon-boundary-guard/SKILL.md: full skill instructions and operating frame
-- canon-boundary-guard/references/frame.md: compact frame used by the hook
-- canon-boundary-guard/scripts/inject_frame.py: hook payload generator
-- canon-boundary-guard/agents/openai.yaml: Codex-facing skill metadata
+- .agents/plugins/marketplace.json: local marketplace entry
+- plugins/canon-boundary-guard-codex/.codex-plugin/plugin.json: plugin manifest
+- plugins/canon-boundary-guard-codex/hooks/hooks.json: plugin hook configuration
+- plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/SKILL.md: full skill instructions and operating frame
+- plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/references/frame.md: compact frame used by the hook
+- plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/scripts/inject_frame.py: hook payload generator
+- plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/agents/openai.yaml: Codex-facing skill metadata
 
 Layer summary:
 

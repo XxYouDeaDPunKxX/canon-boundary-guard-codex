@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Canon Boundary Guard</title>
-  <meta name="description" content="Codex skill for keeping project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers.">
+  <meta name="description" content="Codex plugin for keeping project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/">
   <link rel="alternate" type="text/plain" href="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/llms.txt" title="LLM-readable index">
   <link rel="alternate" type="application/json" href="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/raw-manifest.json" title="Machine-readable manifest">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="Canon Boundary Guard">
-  <meta property="og:description" content="A Codex skill for separating project evidence, chat context, operator instructions, working hypotheses, and model assumptions during a session.">
+  <meta property="og:description" content="A Codex plugin for separating project evidence, chat context, operator instructions, working hypotheses, and model assumptions during a session.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/">
   <meta property="og:image" content="https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/og-image.svg">
@@ -21,7 +21,7 @@
     "@type": "SoftwareSourceCode",
     "name": "Canon Boundary Guard",
     "alternateName": "canon-boundary-guard",
-    "description": "Codex skill for keeping project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers.",
+    "description": "Codex plugin for keeping project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers.",
     "url": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/",
     "mainEntityOfPage": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/",
     "codeRepository": "https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex",
@@ -35,6 +35,7 @@
       "name": "XxYouDeaDPunKxX"
     },
     "about": [
+      "Codex plugin",
       "Codex skill",
       "provenance boundaries",
       "agent instructions",
@@ -43,6 +44,7 @@
     ],
     "keywords": [
       "codex",
+      "codex-plugin",
       "codex-skill",
       "provenance",
       "agent-instructions",
@@ -482,7 +484,7 @@
 <body>
   <header class="wrap hero">
     <div>
-      <p class="eyebrow">Codex skill</p>
+      <p class="eyebrow">Codex plugin</p>
       <h1>Canon Boundary Guard</h1>
       <p class="lead">A cognitive frame for keeping project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate layers during a Codex session.</p>
       <div class="actions" aria-label="Primary links">
@@ -582,13 +584,12 @@
       <div class="split">
         <article class="panel">
           <h2 id="install-title">Install</h2>
-          <p class="body-copy">Copy the <code>canon-boundary-guard/</code> folder from the repository into your Codex skills directory, then restart Codex.</p>
-          <pre><code>Windows: %USERPROFILE%\.codex\skills\canon-boundary-guard
-macOS/Linux: ~/.codex/skills/canon-boundary-guard</code></pre>
+          <p class="body-copy">Add the repository to Codex as a plugin source, then install or enable Canon Boundary Guard from the Codex plugin picker.</p>
+          <p class="body-copy">After it is enabled, select Canon Boundary Guard at the start of a session when you want this frame active. The skill and the recommended hook are already included in the plugin.</p>
         </article>
         <article class="panel">
           <h2>Hook reinforcement</h2>
-          <p class="body-copy">The hook is highly recommended. It emits the compact frame as a <code>systemMessage</code> before matched write tools. It does not block tool calls, rewrite requested operations, or decide project policy.</p>
+          <p class="body-copy">The hook is highly recommended. When trusted, it re-surfaces the compact frame before matched write tools so Codex sees the layer separation again at write time. It does not block tool calls, rewrite requested operations, or decide project policy.</p>
         </article>
       </div>
     </section>
