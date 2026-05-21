@@ -1,0 +1,7 @@
+interface:
+  display_name: "Canon Boundary Guard"
+  short_description: "Session provenance frame for Codex cognitive-layer separation"
+  default_prompt: "Use $canon-boundary-guard as the session operating frame for provenance and cognitive-layer separation."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,41 @@
+{
+  "name": "canon-boundary-guard-codex",
+  "version": "1.0.0",
+  "description": "Codex plugin for keeping provenance and cognitive layers separate across a session.",
+  "author": {
+    "name": "XxYouDeaDPunKxX",
+    "url": "https://github.com/XxYouDeaDPunKxX"
+  },
+  "homepage": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/",
+  "repository": "https://github.com/XxYouDeaDPunKxX/canon-boundary-guard-codex",
+  "license": "CC-BY-SA-4.0",
+  "keywords": [
+    "codex",
+    "skill",
+    "plugin",
+    "hooks",
+    "provenance",
+    "agent-control",
+    "cognitive-layers",
+    "ai-workflows"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
+  "interface": {
+    "displayName": "Canon Boundary Guard",
+    "shortDescription": "Provenance boundary guard for Codex",
+    "longDescription": "Canon Boundary Guard packages a Codex skill and optional lifecycle hook for keeping project evidence, chat context, operator instructions, working hypotheses, and model assumptions in separate cognitive layers.",
+    "developerName": "XxYouDeaDPunKxX",
+    "category": "Productivity",
+    "capabilities": [
+      "Workflow",
+      "Automation"
+    ],
+    "websiteURL": "https://xxyoudeadpunkxx.github.io/canon-boundary-guard-codex/",
+    "defaultPrompt": [
+      "Use Canon Boundary Guard as the session operating frame.",
+      "Use $canon-boundary-guard for provenance and cognitive-layer separation."
+    ],
+    "brandColor": "#536878"
+  }
+}

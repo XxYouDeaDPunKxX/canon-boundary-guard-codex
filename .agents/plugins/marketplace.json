@@ -1,0 +1,20 @@
+{
+  "name": "canon-boundary-guard",
+  "interface": {
+    "displayName": "Canon Boundary Guard"
+  },
+  "plugins": [
+    {
+      "name": "canon-boundary-guard-codex",
+      "source": {
+        "source": "local",
+        "path": "./plugins/canon-boundary-guard-codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

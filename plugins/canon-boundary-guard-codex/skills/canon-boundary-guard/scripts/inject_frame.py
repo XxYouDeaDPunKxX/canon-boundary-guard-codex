@@ -15,7 +15,8 @@ except FileNotFoundError:
 
 output = {
     "hookSpecificOutput": {
-        "hookEventName": "PreToolUse"
+        "hookEventName": "PreToolUse",
+        "additionalContext": frame_text.strip()
     },
     "systemMessage": frame_text.strip()
 }

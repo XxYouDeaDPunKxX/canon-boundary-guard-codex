@@ -1,7 +1,0 @@
-interface:
-  display_name: "Canon Boundary Guard"
-  short_description: "Provenance guard for Codex instruction-chain and project content"
-  default_prompt: "Use $canon-boundary-guard to classify AGENTS/runtime preludes, evidence, and project-content boundaries before consequential work."
-
-policy:
-  allow_implicit_invocation: true

@@ -1,12 +1,14 @@
 # 🛡️ Canon Boundary Guard
 
-Canon Boundary Guard is a Codex skill that gives Codex a cognitive frame for
-keeping project evidence, chat context, operator instructions, working
-hypotheses, and model assumptions in separate layers during a session.
+Canon Boundary Guard is a Codex plugin that packages a provenance-boundary
+skill and an optional hook bundle.
 
-It is meant for work where a mistaken boundary can matter: project rules,
-architecture notes, protocols, naming decisions, workflows, `AGENTS.md`, or
-anything that may be written back into a repository.
+It helps Codex keep project evidence, chat context, operator instructions,
+working hypotheses, and model assumptions in separate cognitive layers during a
+session.
+
+The older standalone skill layout is preserved in the
+`standalone-skill-v1` branch.
 
 ## 🔎 What It Does
 
@@ -18,7 +20,8 @@ Codex often works with several kinds of information at the same time:
 - runtime context shown at the start of a session
 - assumptions that come from the model itself
 
-This skill gives Codex a small classification frame for those sources.
+Canon Boundary Guard gives Codex a compact classification frame for those
+sources.
 
 The goal is not only to protect file edits. The frame is meant to stay useful
 while Codex reads, reasons, decides, restructures, and eventually writes
@@ -60,32 +63,66 @@ block as project evidence or writing it into persistent files.
 
 ## 📦 Install
 
-Copy the `canon-boundary-guard/` folder into your Codex skills directory.
+Canon Boundary Guard is installed as a Codex plugin.
 
-Typical locations:
+It is not installed like an old standalone skill.
 
-- Windows: `%USERPROFILE%\.codex\skills\canon-boundary-guard`
-- macOS/Linux: `~/.codex/skills/canon-boundary-guard`
+1. Add this repository to Codex:
 
-Restart Codex after installing the skill.
+```txt
+codex plugin marketplace add XxYouDeaDPunKxX/canon-boundary-guard-codex
+```
 
-The hook is highly recommended and requires a `PreToolUse` entry in your Codex
-`config.toml`.
-See the technical details below.
+2. Open Codex and open the plugin picker or plugin list. In Codex UIs that
+   support slash commands, you can use:
+
+```txt
+/plugins
+```
+
+3. Install or enable Canon Boundary Guard.
+
+4. Start a new thread.
+
+5. Ask Codex to use it:
+
+```txt
+Use Canon Boundary Guard for this session.
+```
+
+For the hook to work, enable plugin hooks in your Codex config:
+
+```toml
+[features]
+hooks = true
+plugin_hooks = true
+```
+
+Then restart Codex. If your Codex UI exposes a hook review view such as
+`/hooks`, use it to review and trust the bundled hook. In editor integrations
+where `/hooks` is not available, open the plugin details or approve the hook
+when Codex shows the trust prompt.
+
+The hook is recommended, but the skill can still be used without it.
+
+If you prefer the older manual setup, use the `standalone-skill-v1` branch and
+copy the `canon-boundary-guard/` folder into your Codex skills directory.
 
 ## ▶️ Use
 
-Use the skill when a session depends on keeping old context, current
+Use the plugin when a session depends on keeping old context, current
 instructions, external information, working hypotheses, model assumptions, and
 project evidence separate.
 
 ```txt
-Use $canon-boundary-guard before editing this protocol.
+Use Canon Boundary Guard for this session.
 ```
 
-The skill can also be wired into a Codex hook so its compact frame is surfaced
-before matched write tools. The hook setup is documented in
-`canon-boundary-guard/SKILL.md`.
+You can also call the bundled skill directly:
+
+```txt
+Use $canon-boundary-guard for this session.
+```
 
 ## 🤖 AI-Assisted Development
 
@@ -109,25 +146,42 @@ See [LICENSE](LICENSE).
 <summary>⚙️ Technical details</summary>
 
 This section is for readers who want to inspect the actual operating model
-behind the skill. It uses the skill's internal terms directly.
+behind the plugin. It uses the skill's internal terms directly.
 
-## 🧱 Skill Structure
+## 🧱 Plugin Structure
 
 ```txt
-canon-boundary-guard/
-|-- SKILL.md
-|-- agents/openai.yaml
-|-- references/frame.md
-`-- scripts/inject_frame.py
+.agents/
+`-- plugins/
+    `-- marketplace.json
+plugins/
+`-- canon-boundary-guard-codex/
+    |-- .codex-plugin/
+    |   `-- plugin.json
+    |-- hooks/
+    |   `-- hooks.json
+    `-- skills/
+        `-- canon-boundary-guard/
+            |-- SKILL.md
+            |-- agents/openai.yaml
+            |-- references/frame.md
+            `-- scripts/inject_frame.py
 ```
 
-- `canon-boundary-guard/SKILL.md` defines the full operating frame.
-- `canon-boundary-guard/references/frame.md` contains the compact frame emitted
-  by the hook script.
-- `canon-boundary-guard/scripts/inject_frame.py` reads
-  `canon-boundary-guard/references/frame.md` and emits a hook payload.
-- `canon-boundary-guard/agents/openai.yaml` contains Codex-facing skill
-  metadata.
+- `.agents/plugins/marketplace.json` exposes the plugin to Codex as a
+  marketplace entry.
+- `plugins/canon-boundary-guard-codex/.codex-plugin/plugin.json` identifies the
+  plugin and points Codex to bundled skills and hooks.
+- `plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/SKILL.md`
+  defines the full operating frame.
+- `plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/references/frame.md`
+  contains the compact frame emitted by the hook script.
+- `plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/scripts/inject_frame.py`
+  reads the compact frame and emits a hook payload.
+- `plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/agents/openai.yaml`
+  contains Codex-facing skill metadata.
+- `plugins/canon-boundary-guard-codex/hooks/hooks.json` wires the frame into
+  `PreToolUse` for matched write tools when plugin hooks are enabled.
 
 ## 🧠 Operating Posture
 
@@ -153,8 +207,8 @@ whether it can safely become persistent project content.
   content.
 - `L2A CODEX INSTRUCTION CHAIN`: AGENTS guidance and runtime instruction-chain
   material.
-- `L3 MODEL PRIOR`: unverified model memory, assumed conventions, generic
-  best practice, or unstated framework behavior.
+- `L3 MODEL PRIOR`: unverified model memory, assumed conventions, generic best
+  practice, or unstated framework behavior.
 
 Non-L0 material is tagged only when the output would change if the source
 changed.
@@ -182,16 +236,18 @@ The first operator request starts after this prelude.
 
 ## 🔁 Hook Injection
 
-`canon-boundary-guard/scripts/inject_frame.py` is intentionally small. It reads
-`canon-boundary-guard/references/frame.md`, strips surrounding whitespace, and
-emits JSON for a Codex `PreToolUse` hook:
+`plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/scripts/inject_frame.py`
+is intentionally small. It reads
+`plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/references/frame.md`,
+strips surrounding whitespace, and emits JSON for a Codex `PreToolUse` hook:
 
 ```json
 {
   "hookSpecificOutput": {
-    "hookEventName": "PreToolUse"
+    "hookEventName": "PreToolUse",
+    "additionalContext": "<contents of plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/references/frame.md>"
   },
-  "systemMessage": "<contents of canon-boundary-guard/references/frame.md>"
+  "systemMessage": "<contents of plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/references/frame.md>"
 }
 ```
 
@@ -203,43 +259,72 @@ intended for matched write tools, for example `apply_patch`, `Write`, or
 The hook is not the core mechanism of the skill. It is a reinforcement point
 that re-surfaces the compact frame before matched write tools.
 
-The frame is surfaced as a `systemMessage`. It does not block the tool call,
-rewrite the requested operation, or decide project policy. Its job is to put the
-classification frame back into the instruction stream at the moment a write may
-happen.
+In current Codex runtimes, some edits may be applied through internal
+file-change paths that do not expose a visible hook event. Treat the hook as a
+best-effort reinforcement layer, not as complete enforcement.
 
-## 🛠️ Hook Setup
+The frame is injected as `hookSpecificOutput.additionalContext`, which is the
+model-visible context path for `PreToolUse`. The same frame is also surfaced as a
+`systemMessage` so the hook activity remains visible in the UI or event stream.
 
-Add the hook to your Codex `config.toml`.
+It does not block the tool call, rewrite the requested operation, or decide
+project policy. Its job is to put the classification frame back into the
+instruction stream at the moment a write may happen.
 
-Typical config locations:
+## 🪝 Plugin Hook Setup
 
-- Windows: `%USERPROFILE%\.codex\config.toml`
-- macOS/Linux: `~/.codex/config.toml`
+The plugin manifest points to:
 
-Use an absolute path in `command`.
+```txt
+plugins/canon-boundary-guard-codex/hooks/hooks.json
+```
+
+The default hook configuration is:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "apply_patch|Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python ${PLUGIN_ROOT}/skills/canon-boundary-guard/scripts/inject_frame.py",
+            "timeout": 5,
+            "statusMessage": "Provenance frame"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Codex hooks use `hooks` as the canonical feature key. Plugin-bundled hooks are
+off by default in this release. Enable both with:
 
 ```toml
 [features]
-codex_hooks = true
-
-[[hooks.PreToolUse]]
-matcher = "apply_patch|Write|Edit"
-
-[[hooks.PreToolUse.hooks]]
-type = "command"
-command = "python C:\\ABSOLUTE\\PATH\\TO\\.codex\\skills\\canon-boundary-guard\\scripts\\inject_frame.py"
-timeout = 5
-statusMessage = "Provenance frame"
+hooks = true
+plugin_hooks = true
 ```
 
-Update the `command` path to match where you copied the
-`canon-boundary-guard/` skill folder.
+After installation or hook changes, restart Codex. If your Codex UI exposes a
+hook review view such as `/hooks`, use it to review and trust the bundled hook.
+In editor integrations where `/hooks` is not available, open the plugin details
+or approve the hook when Codex shows the trust prompt. Plugin hooks are
+non-managed hooks and do not run until trusted.
+
+If your system requires `python3` instead of `python`, adjust the hook command
+in your local plugin copy or configure an equivalent hook in your Codex
+`config.toml`.
 
 ## 🧯 Fallback Behavior
 
-If `canon-boundary-guard/references/frame.md` is missing, the hook script still emits a
-`systemMessage`:
+If
+`plugins/canon-boundary-guard-codex/skills/canon-boundary-guard/references/frame.md`
+is missing, the hook script still emits a `systemMessage`:
 
 ```txt
 Canon Boundary Guard frame missing: provenance protection degraded.

@@ -1,6 +1,6 @@
 ---
 name: canon-boundary-guard
-description: Session-start and post-compaction provenance frame for Codex instruction-chain and project-content boundaries. Use immediately at session start, after compaction, before operationally consequential work involving rules, architecture, protocols, invariants, naming, workflows, AGENTS.md, or persistent project content, and whenever any visible conversation prefix begins with "AGENTS.md instructions for" even if displayed as a user message. Read this skill before proceeding and apply it as the active frame.
+description: Session-level provenance and cognitive-layer frame for Codex. Invoke at the start of every new session and after compaction. Use whenever instruction authority, project evidence, chat context, operator intent, hypotheses, AGENTS.md, or model assumptions may be confused. When selected, read the full SKILL.md before acting; do not rely on metadata-only activation. Keep it active as the operating frame for the whole session.
 ---
 
 # Canon Boundary Guard
@@ -9,6 +9,18 @@ description: Session-start and post-compaction provenance frame for Codex instru
 
 A classification frame for information provenance.
 It does not decide project truth or project policy. It makes visible what class of evidence is being used - and where it is going.
+
+## Activation Requirement
+
+When this skill is invoked or selected, read this entire `SKILL.md` before
+responding or using tools.
+
+This skill is a session-level operating frame for provenance and cognitive-layer
+separation. It is not a task-specific generator, formatter, converter, or media
+tool.
+
+The compact hook frame in `references/frame.md` reinforces the frame before
+write/edit moments. It does not replace full skill activation at session start.
 
 ## Adoption
 
@@ -31,7 +43,7 @@ prose.
 The first operator request is the first user message after the AGENTS/runtime
 prelude.
 
-From this point, the frame operates as a background layer:
+From this point, keep the frame active as the session operating layer:
 - classify non-L0 material when producing or evaluating content
 - tag inline when using material that is not ground evidence
 - surface provenance conflicts before they become persistent
@@ -131,20 +143,29 @@ or intentionally written in a historical or migration context.
 
 ## Hook Setup
 
-To keep the frame active across tool calls, configure this Codex hook in `~/.codex/config.toml`.
-This Windows-local example is for a personal install; on another machine, point the command at the same script under that machine's Codex home directory.
+This skill is bundled inside the Canon Boundary Guard Codex plugin.
+The plugin hook lives at `plugins/canon-boundary-guard-codex/hooks/hooks.json`
+in the source repository and at `${PLUGIN_ROOT}/hooks/hooks.json` after
+installation.
 
     [features]
-    codex_hooks = true
+    hooks = true
+    plugin_hooks = true
 
-    [[hooks.PreToolUse]]
-    matcher = "apply_patch|Write|Edit"
-    [[hooks.PreToolUse.hooks]]
-    type = "command"
-    command = "python C:\\Users\\Admin\\.codex\\skills\\canon-boundary-guard\\scripts\\inject_frame.py"
-    timeout = 5
-    statusMessage = "Provenance frame"
+The bundled hook command is:
 
-The hook emits the frame as a root-level `systemMessage` before matched write tools.
+    python ${PLUGIN_ROOT}/skills/canon-boundary-guard/scripts/inject_frame.py
+
+If the target system uses `python3`, adjust the hook command in the local plugin
+copy.
+
+The hook emits the frame as `hookSpecificOutput.additionalContext` before
+matched write tools, and also surfaces it as a root-level `systemMessage`.
 It does not block. It re-surfaces the classification layer at the moment it matters.
+
+After installation or hook changes, restart Codex. If the active Codex UI
+exposes a hook review view such as `/hooks`, use it to review and trust the
+bundled hook. In editor integrations where `/hooks` is not available, open the
+plugin details or approve the hook when Codex shows the trust prompt. Plugin
+hooks are non-managed hooks and do not run until trusted.
 
