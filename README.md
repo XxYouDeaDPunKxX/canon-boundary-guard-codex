@@ -1,5 +1,11 @@
 # 🛡️ Canon Boundary Guard
 
+> This branch preserves the standalone skill layout of Canon Boundary Guard.
+>
+> The active package now lives on `main` as a Codex plugin. Use this branch only
+> if you want the older manual setup: copy the `canon-boundary-guard/` folder
+> into your Codex skills directory and configure the hook yourself.
+
 Canon Boundary Guard is a Codex skill that gives Codex a cognitive frame for
 keeping project evidence, chat context, operator instructions, working
 hypotheses, and model assumptions in separate layers during a session.
