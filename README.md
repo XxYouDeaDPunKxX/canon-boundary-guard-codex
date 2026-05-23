@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="./assets/ChatGPT Image 23 mag 2026, 19_25_23.png" alt="ChatGPT Image 23 mag 2026, 19_25_23" width="100%">
+</p>
 # 🛡️ Canon Boundary Guard
 
 Canon Boundary Guard is a Codex plugin that packages a provenance-boundary
